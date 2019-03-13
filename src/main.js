@@ -3,6 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import  { ToastPlugin } from 'vux'
+import  { LoadingPlugin } from 'vux'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(LoadingPlugin)
+Vue.use(ToastPlugin)
+Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
