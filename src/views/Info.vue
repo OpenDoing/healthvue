@@ -3,12 +3,6 @@
     <x-header :left-options="{showBack: false}">个人中心</x-header>
     <flexbox style="margin-top: 20px">
       <flexbox-item :span="1"></flexbox-item>
-      <flexbox-item>
-        <flexbox orient="vertical">
-          <flexbox-item><p style="font-size: 22px;"><b>{{username}}</b></p></flexbox-item>
-          <flexbox-item>ID:{{userId}}</flexbox-item>
-        </flexbox>
-      </flexbox-item>
       <flexbox-item :span="4">
         <!--<img src="../assets/logo.png" class="avatar">-->
         <el-upload
@@ -21,6 +15,12 @@
           <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-picture avatar-uploader-icon"></i>
         </el-upload>
+      </flexbox-item>
+      <flexbox-item>
+        <flexbox orient="vertical">
+          <flexbox-item><p style="font-size: 22px;"><b>{{username}}</b></p></flexbox-item>
+          <flexbox-item>ID:{{userId}}</flexbox-item>
+        </flexbox>
       </flexbox-item>
     </flexbox>
 
@@ -51,7 +51,10 @@ import { config} from "../utils/global";
 import axios from 'axios'
 export default {
   name: "Info",
-  components: {XHeader, Home,Flexbox,
+  components: {
+    XHeader,
+    Home,
+    Flexbox,
     FlexboxItem,
     Divider,
     XImg,

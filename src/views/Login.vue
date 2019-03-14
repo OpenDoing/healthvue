@@ -70,10 +70,10 @@ export default {
         }
       },
       login() {
-        if (this.username === 'admin' && this.password === 'admin') {
-          this.$router.push({path: '/admin'})
-          return ;
-        }
+        // if (this.username === 'admin' && this.password === 'admin') {
+        //   this.$router.push({path: '/admin'})
+        //   return ;
+        // }
         const url = config.base_url + '/user/login'
         axios
           .post(url,{
