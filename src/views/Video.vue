@@ -34,6 +34,8 @@
 <script>
 import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox,Badge } from 'vux'
 import Home from './Home'
+import axios from 'axios'
+import {config} from "../utils/global"
 export default {
   name: "Video",
   components: {
@@ -50,38 +52,27 @@ export default {
   },
   data() {
     return {
-      videos: [
-        {
-          id: 1,
-          path: 'http://v1.keepcdn.com/video/2017/11/26/16/3f9f40f94ebeedd6e7a164f85908584b039d3768.mp4',
-          title: '秀一波操作',
-          category: '其他'
-        },
-        {
-          id: 2,
-          path: 'http://192.168.1.114:8007/video/2.mp4',
-          title: '波比运动',
-          category: 'Burpee'
-        },
-        {
-          id: 3,
-          path: 'http://192.168.1.114:8007/video/3.mp4',
-          title: '波比运动',
-          category: 'Burpee'
-        },
-        {
-          id: 4,
-          path: 'http://192.168.1.114:8007/video/1.mp4',
-          title: '波比运动',
-          category: 'Burpee'
-        },
-        {
-          id: 5,
-          path: 'http://v1.keepcdn.com/video/2017/07/24/23/9b4a3c2f1fe318f020eb1f94073ac99a8ef34aad.mp4',
-          title: '减腰部赘肉',
-          category: '其他'
-        },
-      ]
+      videos: []
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods:{
+    init() {
+      const url = config.base_url + '/video/all'
+      axios
+        .get(url)
+        .then(response=>{
+          for (let i = 0;i < response.data.data.length; i++) {
+            let tpath = response.data.data[i].path
+            if (tpath.substring(0,4) !== 'http') {
+              response.data.data[i].path = config.source_url + response.data.data[i].path
+            }
+          }
+          this.videos = response.data.data
+          console.log(this.videos)
+        })
     }
   }
 }

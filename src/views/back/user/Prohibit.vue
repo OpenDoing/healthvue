@@ -4,7 +4,7 @@
     <el-row class="mt50">
       <el-col :span="16" :offset="4">
         <el-table
-          empty-text="暂无需要审核的用户"
+          empty-text="暂无用户"
           :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
           stripe
           style="width: 100%"
@@ -27,8 +27,8 @@
             prop=""
             label="账号状态">
             <template slot-scope="scope">
-              <div v-if="scope.row.status === 0">未测试</div>
-              <div v-else>{{scope.row.status}}</div>
+              <div v-if="scope.row.status === 0">限制登录</div>
+              <div v-else>正常</div>
             </template>
           </el-table-column>
           <el-table-column
@@ -36,7 +36,7 @@
             prop="level"
             label="测评状态">
             <template slot-scope="scope">
-              <div v-if="scope.row.level === 0">未测试</div>
+              <div v-if="scope.row.level === null">未测试</div>
               <div v-else>{{scope.row.level}}</div>
             </template>
           </el-table-column>
@@ -94,17 +94,17 @@ export default {
   },
   methods: {
     init() {
-      const url = config.base_url + '/user/list?role=0'
+      const url = config.base_url + '/user/users'
       axios
         .get(url)
         .then(res=>{
-          this.tableData = res.data
-          this.total = res.data.length
+          this.tableData = res.data.data
+          this.total = res.data.data.length
         })
     },
     prohibit(index,row) {
       const self = this
-      const url = config.base_url + '/user/fen?userId=' + row.id + '&status=2'
+      const url = config.base_url + '/user/fen?userId=' + row.id + '&status=0'
       axios
         .post(url)
         .then(res=>{

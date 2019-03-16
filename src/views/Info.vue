@@ -31,7 +31,7 @@
           <cell title="修改密码" :link="'/info/password/' + userId" >
             <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/password.svg">
           </cell>
-          <cell title="切换账号" link="/" >
+          <cell title="切换账号" @click.native="changeAccount">
             <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/login.svg">
           </cell>
           <cell title="问卷测评" link="/ques" >
@@ -79,6 +79,10 @@ export default {
     this.init()
   },
   methods: {
+    changeAccount() {
+      window.localStorage.clear();
+      this.$router.push({path: '/'})
+    },
     init() {
       const userId = localStorage.getItem('userId')
       const url = config.base_url + '/user/info?userId=' + userId

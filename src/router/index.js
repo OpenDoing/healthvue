@@ -17,6 +17,15 @@ import Manage from '@/views/back/topic/Manage'
 import Prohibit from '@/views/back/user/Prohibit'
 import LoginBack from '@/views/back/LoginBack'
 import ArticleManagement from '@/views/back/user/ArticleManagement'
+
+import AddArticle from '@/views/back/add/AddArticle'
+import AddFood from '@/views/back/add/AddFood'
+import AddVideo from '@/views/back/add/AddVideo'
+
+import UpdateArticle from '@/views/back/update/UpdateArticle'
+import UpdateFood from '@/views/back/update/UpdateFood'
+import UpdateVideo from '@/views/back/update/UpdateVideo'
+
 Vue.use(Router)
 
 export default new Router({
@@ -90,6 +99,36 @@ export default new Router({
       path: '/back/login',
       name: 'LoginBack',
       component: LoginBack
+    },
+    {
+      path: '/back/food/add',
+      name: 'AddFood',
+      component: AddFood
+    },
+    {
+      path: '/back/video/add',
+      name: 'AddVideo',
+      component: AddVideo
+    },
+    {
+      path: '/back/article/add',
+      name: 'AddArticle',
+      component: AddArticle
+    },
+    {
+      path: '/back/food/update/:id',
+      name: 'UpdateFood',
+      component: UpdateFood
+    },
+    {
+      path: '/back/video/update/:id',
+      name: 'UpdateVideo',
+      component: UpdateVideo
+    },
+    {
+      path: '/back/article/update/:id',
+      name: 'UpdateArticle',
+      component: UpdateArticle
     },
   ]
 })

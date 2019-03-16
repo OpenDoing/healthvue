@@ -21,7 +21,10 @@ import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox} from
 
 export default {
   name: "Article",
-  components: {XHeader, Home,Flexbox,
+  components: {
+    XHeader,
+    Home,
+    Flexbox,
     FlexboxItem,
     Divider,
     XImg,

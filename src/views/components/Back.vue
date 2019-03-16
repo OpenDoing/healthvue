@@ -4,7 +4,6 @@
       <el-col :span="16" :offset="4">
         <el-menu
           :router="true"
-          :default-active="activeIndex"
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
@@ -32,8 +31,8 @@
       }
     },
     methods: {
-      handleSelect() {
-
+      handleSelect(val) {
+        this.activeIndex = val
       }
     }
   }

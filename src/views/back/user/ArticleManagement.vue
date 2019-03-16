@@ -24,7 +24,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="status"
+            prop="level"
             label="分类等级">
             <template slot-scope="scope">
               <div v-if="scope.row.level === 0">未测试</div>
@@ -33,7 +33,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="createdDate"
+            prop="ctime"
             label="创建时间">
           </el-table-column>
           <el-table-column
@@ -67,7 +67,7 @@
         </el-pagination>
       </el-col>
       <el-col :span="4">
-        <el-button type="primary" @click="add">新增</el-button>
+        <el-button type="primary" @click="addArticle">新增</el-button>
       </el-col>
     </el-row>
   </div>
@@ -83,7 +83,14 @@ export default {
     inject: ['reload'],
     data() {
       return {
-        tableData: [],
+        tableData: [
+          {
+            id: 1,
+            title: '放松冥想',
+            level: 2,
+            createdDate: '2019-03-15'
+          }
+        ],
         total:0,          //默认数据总数
         pagesize:5,       //每页的数据条数
         currentPage:1,    //默认开始页面
@@ -93,54 +100,28 @@ export default {
       this.init()
     },
     methods: {
+      addArticle() {
+        this.$router.push('/back/article/add')
+      },
       init() {
-        const url = config.base_url + '/topic/all?userId=' + 13
+        const url = config.base_url + '/article/all'
         axios
           .get(url)
           .then(response=>{
-            this.total = response.data.length
-            this.tableData = response.data
+            this.total = response.data.data.length
+            this.tableData = response.data.data
           })
       },
       current_change:function(currentPage){
         this.currentPage = currentPage;
       },
       handleEdit(index,row) {
-        const self = this
-
-        this.$prompt('', '修改标题', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputErrorMessage: '文件名不正确'
-        }).then(({ value }) => {
-          let self = this
-          const url = config.base_url + '/topic/title?title=' + value + '&id=' + row.id
-          axios
-            .post(url)
-            .then(function (response) {
-              self.$message({
-                message: '标题成功修改为：' + value,
-                type: 'success'
-              })
-              self.reload()
-            })
-            .catch(function (error) {
-              console.log(error)
-            });
-
-        }).catch(() => {
-          // this.$message({
-          //   type: 'info',
-          //   message: '取消输入'
-          // });
-        });
-
-        // const url = config.base_url + '/topic/title?title=' + row.id
+        this.$router.push('/back/article/update/' + row.id)
       },
       handleDel(index,row) {
         const self = this
-        const url = config.base_url + '/topic/delete?topicId=' + row.id
-        this.$confirm('此操作将永久删除该帖, 是否继续?', '提示', {
+        const url = config.base_url + '/article/del?id=' + row.id
+        this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

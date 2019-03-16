@@ -36,7 +36,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="status"
+            prop="reason"
             label="原因">
           </el-table-column>
           <el-table-column
@@ -69,7 +69,7 @@
         </el-pagination>
       </el-col>
       <el-col :span="4">
-        <el-button type="primary" @click="add">新增</el-button>
+        <el-button type="primary" @click="addFood">新增</el-button>
       </el-col>
     </el-row>
   </div>
@@ -97,29 +97,24 @@ export default {
     this.init()
   },
   methods: {
+    addFood() {
+      this.$router.push('/back/food/add')
+    },
     init() {
-      const url = config.base_url + '/user/list?role=1'
+      const url = config.base_url + '/food/all'
       axios
         .get(url)
-        .then(res=>{
-          this.tableData = res.data
-          this.total = res.data.length
+        .then(response=>{
+          this.total = response.data.data.length
+          this.tableData = response.data.data
         })
     },
     handleEdit(index,row) {
-      const self = this
-      const url = config.base_url + '/user/check?userId=' + row.id
-      axios
-        .post(url)
-        .then(res=>{
-          self.$message.success('审核通过！')
-          self.reload()
-
-        })
+      this.$router.push('/back/food/update/' + row.id)
     },
     handleDel(index,row) {
       const self = this
-      const url = config.base_url + '/user/del?userId=' + row.id
+      const url = config.base_url + '/food/del?id=' + row.id
       this.$confirm('此操作将永久删除该搭配, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -132,6 +127,7 @@ export default {
               type: 'success',
               message: '删除成功!'
             });
+            this.reload()
           })
 
 

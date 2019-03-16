@@ -66,7 +66,7 @@ export default {
     methods: {
       judgeStorge() {
         if (localStorage.getItem('userId')) {
-          this.$router.push({path: '/home'})
+          this.$router.push({path: '/video'})
         }
       },
       login() {
@@ -89,7 +89,7 @@ export default {
                 // this.$cookies.set('username', data.data.username, 60 * 60 * 24 * 100)
                 window.localStorage.setItem('userId', data.data.id)
                 window.localStorage.setItem('username', data.data.username)
-                this.$router.push({path: '/home'})
+                this.$router.push({path: '/video'})
               } else {
                 this.$vux.toast.text('您账号异常，已限制登录!', 'bottom')
               }
