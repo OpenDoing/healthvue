@@ -71,9 +71,8 @@ export default {
         })
         .then(response=>{
           this.$vux.toast.text('注册成功！', 'bottom')
-          window.localStorage.setItem('userId', data.data.id)
-          window.localStorage.setItem('username', data.data.username)
-          this.userId = response.data.data.id
+          window.localStorage.setItem('userId', response.data.data.id)
+          window.localStorage.setItem('username', response.data.data.username)
           this.$router.push({path: '/video'})
         })
     }

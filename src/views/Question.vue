@@ -43,7 +43,8 @@
 
 <script>
 import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox,Group,XInput,XTextarea,Radio,Alert,Tab, TabItem} from 'vux'
-
+import { config } from "../utils/global"
+import axios from 'axios'
 export default {
   name: "Question",
   components: {
@@ -345,6 +346,14 @@ export default {
       } else {
         this.grade = '重度'
       }
+      let level = Math.ceil(score / 10)
+      let id = window.localStorage.getItem('userId')
+      const url = config.base_url + '/user/level?level=' + level +'&userId=' + id
+      axios
+        .post(url)
+        .then(response=>{
+
+        })
     },
     submitDepressed() {
       this.showDscore = true
@@ -360,6 +369,14 @@ export default {
       } else {
         this.grade = '重度'
       }
+      let level = Math.ceil(score / 10)
+      let id = window.localStorage.getItem('userId')
+      const url = config.base_url + '/user/level?level=' + level +'&userId=' + id
+      axios
+        .post(url)
+        .then(response=>{
+
+        })
     },
     activeQuestion(id){
       this.activeQid = id

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <x-header :left-options="{showBack: false}">视频首页</x-header>
+    <x-header :left-options="{showBack: false}" title="视频首页"><div slot="right" @click="videoLike()">{{tip}}</div></x-header>
     <flexbox orient="vertical">
       <flexbox-item v-for="video in videos" :key="video.id" style="border-bottom: 10px solid #F5F5F5;">
-        <flexbox orient="vertical">
+        <flexbox orient="vertical" >
           <flexbox-item>
             <flexbox>
               <flexbox-item style="font-size: 20px">
@@ -15,13 +15,14 @@
             </flexbox>
           </flexbox-item>
           <flexbox-item>
-            <video :src="video.path" controls="controls" class="video">
+            <div @click="like(video.category)">
+            <video :src="video.path" controls="controls" class="video" >
 
             </video>
+            </div>
           </flexbox-item>
           <flexbox-item style="margin-top: 8px"></flexbox-item>
         </flexbox>
-
       </flexbox-item>
     </flexbox>
     <Home></Home>
@@ -52,13 +53,43 @@ export default {
   },
   data() {
     return {
-      videos: []
+      videos: [],
+      tip: '推送'
     }
   },
   mounted() {
     this.init()
   },
   methods:{
+    play() {
+      console.log(111)
+    },
+    videoLike() {
+      if (this.tip === '推送') {
+        this.tip = '全部'
+        this.init()
+      } else {
+        this.tip = '推送'
+        this.likeVideoes()
+      }
+    },
+    likeVideoes() {
+      let id = Number(window.localStorage.getItem('userId'))
+      const url = config.base_url + '/video/category?userId=' + id
+      axios
+        .get(url)
+        .then(response=>{
+          for (let i = 0;i < response.data.data.length; i++) {
+            let tpath = response.data.data[i].path
+            if (tpath.substring(0,4) !== 'http') {
+              response.data.data[i].path = config.source_url + response.data.data[i].path
+            }
+          }
+          this.videos = response.data.data
+          this.$vux.toast.text('已推送您喜欢的视频！', 'bottom')
+
+        })
+    },
     init() {
       const url = config.base_url + '/video/all'
       axios
@@ -72,6 +103,16 @@ export default {
           }
           this.videos = response.data.data
           console.log(this.videos)
+        })
+    },
+    like(category) {
+      console.log(898)
+      let id = Number(window.localStorage.getItem('userId'))
+      const url = config.base_url + '/video/like?userId=' + id + '&category=' + category
+      axios
+        .post(url)
+        .then(response=>{
+          console.log(category)
         })
     }
   }

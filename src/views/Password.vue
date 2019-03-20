@@ -4,21 +4,21 @@
     <flexbox orient="vertical">
       <flexbox-item>
         <group>
-          <x-input v-model="opassword" placeholder="原始密码" required>
+          <x-input v-model="opassword" type="password" placeholder="原始密码" required>
             <img slot="label" src="../assets/img/username.svg" class="ml15"/>
           </x-input>
         </group>
       </flexbox-item>
       <flexbox-item>
         <group>
-          <x-input v-model="npassword1" placeholder="修改密码" required>
+          <x-input v-model="npassword1" type="password" placeholder="修改密码" required>
             <img slot="label" src="../assets/img/password.svg" class="ml15"/>
           </x-input>
         </group>
       </flexbox-item>
       <flexbox-item>
         <group>
-          <x-input v-model="npassword2" placeholder="确认密码" required>
+          <x-input v-model="npassword2" type="password" placeholder="确认密码" required>
             <img slot="label" src="../assets/img/password.svg" class="ml15"/>
           </x-input>
         </group>
@@ -69,7 +69,8 @@ export default {
           .then(response=>{
             let data = response.data
             this.$vux.toast.text('修改成功', 'bottom')
-            this.$router.push({path: '/login'})
+            window.localStorage.clear();
+            this.$router.push({path: '/'})
           })
           .catch(err=>{
             this.$vux.toast.text('密码错误', 'bottom')

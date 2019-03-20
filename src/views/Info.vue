@@ -85,7 +85,7 @@ export default {
     },
     init() {
       const userId = localStorage.getItem('userId')
-      const url = config.base_url + '/user/info?userId=' + userId
+      const url = config.base_url + '/user/get?userId=' + userId
       axios
         .get(url)
         .then(response=>{

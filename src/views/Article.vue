@@ -11,6 +11,8 @@
          </router-link>
        </flexbox-item>
      </flexbox>
+     <divider></divider>
+     <divider></divider>
      <Home></Home>
    </div>
 </template>
@@ -18,7 +20,8 @@
 <script>
 import Home from "./Home"
 import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox} from 'vux'
-
+import { config } from "../utils/global"
+import axios from 'axios'
 export default {
   name: "Article",
   components: {
@@ -34,36 +37,45 @@ export default {
   },
   data() {
     return{
-      articles: [
-        {
-          id: 1,
-          title: '嘉庆压力',
-          content: '打碎佛钮司UN鬼王内容吧呢都',
-          category: '',
-          ctime: '2019-03-10'
-        },
-        {
-          id: 2,
-          title: '压力',
-          content: 'dd',
-          category: '',
-          ctime: '2019-03-10'
-        },
-        {
-          id: 3,
-          title: '抑郁',
-          content: '理减压是一种高效整合的心理咨询方式，心理减压技术源于心理咨询却高于心理咨询。心理减压的目的就是达成求诉者身心的平衡以及生活﹑工作﹑家庭的和谐。即心理咨询不帮助求助者解决任何生活中的具体问题，而心理减压却要求帮助求助者解决',
-          category: '',
-          ctime: '2019-03-10'
-        },
-        {
-          id: 4,
-          title: '宿舍',
-          content: '打碎佛钮司UN鬼王内容吧呢都',
-          category: '',
-          ctime: '2019-03-10'
-        }
-      ]
+      articles: []
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods:{
+    init() {
+      const url = config.base_url + '/user/get?userId=' + window.localStorage.getItem('userId')
+      axios
+        .get(url)
+        .then(response=>{
+          if (response.data.data.level >=0) {
+            this.part(response.data.data.level)
+          } else {
+            this.all()
+          }
+        })
+
+    },
+    part(level) {
+      const url = config.base_url + '/article/getBylevel?level=' + level
+      axios
+        .get(url)
+        .then(response=>{
+          this.articles = response.data.data
+          console.log(this.articles)
+          if (this.articles.length === 0) {
+            this.$vux.toast.text('暂无您的相关推荐！', 'bottom')
+          }
+        })
+    },
+    all() {
+      const url = config.base_url + '/article/all'
+      axios
+        .get(url)
+        .then(response=>{
+          this.articles = response.data.data
+        })
     }
   }
 }

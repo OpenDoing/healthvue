@@ -1,17 +1,17 @@
 <template>
    <div>
      <x-header :title="article.title"></x-header>
-     <flexbox orient="vertical">
-       <flexbox-item>
+     <flexbox orient="vertical" >
+       <flexbox-item style="margin-top: 15px">
          <h2>{{article.title}}</h2>
        </flexbox-item>
        <flexbox-item>
          <p style="font-size: 14px">创建时间：{{article.ctime}}</p>
        </flexbox-item>
      </flexbox>
-     <flexbox style="border-top: 10px solid #F5F5F5;padding-left: 15px;padding-right: 15px">
+     <flexbox style="border-top: 10px solid #F5F5F5;">
        <flexbox-item>
-         {{article.content}}
+         <p style="padding-left: 15px;padding-right: 15px">{{article.content}}</p>
        </flexbox-item>
      </flexbox>
    </div>
@@ -19,7 +19,8 @@
 
 <script>
 import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox} from 'vux'
-
+import { config } from "../utils/global"
+import axios from 'axios'
 export default {
   name: "ArticleDetail",
   components: {
@@ -34,13 +35,7 @@ export default {
   },
   data() {
     return{
-      article: {
-        id: 1,
-        title: '嘉庆压力',
-        content: '打碎佛钮司UN鬼王内容吧呢都',
-        category: '',
-        ctime: '2019-03-10'
-      }
+      article: {}
     }
   },
   mounted() {
@@ -48,7 +43,12 @@ export default {
   },
   methods: {
     init() {
-
+      const url =config.base_url + '/article/get?id=' + this.$route.params.id
+      axios
+        .get(url)
+        .then(response=>{
+          this.article = response.data.data
+        })
     }
   }
 }
