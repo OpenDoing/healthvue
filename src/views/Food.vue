@@ -84,6 +84,11 @@ export default {
 
           }
         })
+        .catch(err=>{
+          this.$vux.loading.hide()
+        })
+      this.$vux.loading.hide()
+
     },
 
   }

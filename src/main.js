@@ -7,6 +7,8 @@ import  { ToastPlugin } from 'vux'
 import  { LoadingPlugin } from 'vux'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import Mui from 'vue-awesome-mui'
+Vue.use(Mui)
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
 Vue.use(ElementUI)
