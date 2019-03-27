@@ -49,51 +49,54 @@ export default {
     Login() {
       const self = this
       const url = config.base_url + '/user/login'
-      axios
-        .post(url, {
-          username: this.loginForm.username,
-          password: this.loginForm.password
-        })
-        .then(response => {
-          const data = response.data
-          if (data.errno === 500) {
-            self.$notify.info({
-              title: '提示',
-              message: '请输入正确的用户名!'
-            })
-          } else if (data.errno === 403) {
-            self.$notify.info({
-              title: '提示',
-              message: '账号密码错误!'
-            })
-          } else if (data.errno === 402) {
-            self.$notify.info({
-              title: '提示',
-              message: '请输入正确的用户名！'
-            })
-          } else if (data.errno === 0) {
-            if (this.loginForm.username === 'admin') {
-              this.$router.push('/back/user')
-            }else {
-              self.$notify.error({
-                title: '错误',
-                message: '您不是管理员！'
-              })
-            }
-
-          } else {
-            self.$notify.error({
-              title: '错误',
-              message: '参数错误！'
-            })
-          }
-        })
-        .catch(function() {
-          self.$notify.error({
-            title: '错误',
-            message: '服务器端无响应！'
-          })
-        })
+      if (this.loginForm.username === 'admin' && this.loginForm.password === 'admin') {
+        this.$router.push('/back/user')
+      }
+      // axios
+      //   .post(url, {
+      //     username: this.loginForm.username,
+      //     password: this.loginForm.password
+      //   })
+      //   .then(response => {
+      //     const data = response.data
+      //     if (data.errno === 500) {
+      //       self.$notify.info({
+      //         title: '提示',
+      //         message: '请输入正确的用户名!'
+      //       })
+      //     } else if (data.errno === 403) {
+      //       self.$notify.info({
+      //         title: '提示',
+      //         message: '账号密码错误!'
+      //       })
+      //     } else if (data.errno === 402) {
+      //       self.$notify.info({
+      //         title: '提示',
+      //         message: '请输入正确的用户名！'
+      //       })
+      //     } else if (data.errno === 0) {
+      //       if (this.loginForm.username === 'admin') {
+      //         this.$router.push('/back/user')
+      //       }else {
+      //         self.$notify.error({
+      //           title: '错误',
+      //           message: '您不是管理员！'
+      //         })
+      //       }
+      //
+      //     } else {
+      //       self.$notify.error({
+      //         title: '错误',
+      //         message: '参数错误！'
+      //       })
+      //     }
+      //   })
+      //   .catch(function() {
+      //     self.$notify.error({
+      //       title: '错误',
+      //       message: '服务器端无响应！'
+      //     })
+      //   })
     }
   }
 }
