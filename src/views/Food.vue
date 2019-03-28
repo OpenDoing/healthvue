@@ -6,13 +6,11 @@
       <x-input title="饮食2" v-model="food2"></x-input>
     </group>
     <flexbox style="margin-top: 15px">
-      <flexbox-item :span="2"></flexbox-item>
+      <flexbox-item :span="4"></flexbox-item>
       <flexbox-item :span="4">
-        <x-button mini>本地查询</x-button>
+        <x-button type="default" @click.native="local">查询</x-button>
       </flexbox-item>
-      <flexbox-item :span="4">
-        <x-button type="primary" mini @click.native="init">在线查询</x-button>
-      </flexbox-item>
+
     </flexbox>
 
     <flexbox>
@@ -61,6 +59,21 @@ export default {
     // this.init()
   },
   methods: {
+    local() {
+      const url = config.base_url +  '/food/local?food1=' + this.food1 + '&food2=' + this.food2
+      axios
+        .get(url)
+        .then(response=>{
+          if (response.data.data !== null) {
+            this.advice = response.data.data.advice
+            this.reason = response.data.data.reason
+          } else{
+            this.advice = '无'
+            this.reason = '未搜索到相关结果'
+          }
+
+        })
+    },
     init() {
       this.$vux.loading.show({
         text: 'Loading'
