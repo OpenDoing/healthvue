@@ -8,9 +8,15 @@
     </tab>
     <div v-show="anxietyClick">
       <group v-for="question in questions" :key="question.id" :title="question.id + '.' + question.title"
-             style="border-bottom: 10px solid #F5F5F5;" @click.native="activeQuestion(question.id)">
-        <radio :selected-label-style="{color: '#FF9900'}" :options="options" @on-change="change" style="font-size: 16px"></radio>
+             style="border-bottom: 10px solid #F5F5F5;" >
+          <!--<radio :selected-label-style="{color: '#FF9900'}" :options="noptions" @on-change="change" style="font-size: 16px"></radio>-->
+          <checker default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+            <checker-item :value="item" v-for="(item, index) in options" :key="index" @click.native="changeA(question.id, index)">{{item.value}}<br/></checker-item>
+          </checker>
+
       </group>
+
+      <!--<checklist title="111" :options="options" v-model="radioValue" :max="1" @on-change="change"></checklist>-->
 
       <flexbox>
         <flexbox-item :span="3"></flexbox-item>
@@ -25,8 +31,12 @@
     <div v-show="depressedClick">
       <group v-for="question in questionDepress" :key="question.id" :title="question.id + '.' + question.title"
              style="border-bottom: 10px solid #F5F5F5;" @click.native="activeDQuestion(question.id)">
-        <radio :selected-label-style="{color: '#FF9900'}" :options="optionsD" @on-change="changeD" style="font-size: 16px"></radio>
+        <!--<radio :selected-label-style="{color: '#FF9900'}" :options="optionsD" @on-change="changeD" style="font-size: 16px"></radio>-->
+        <checker default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+          <checker-item :value="item" v-for="(item, index) in options" :key="index" @click.native="changeD(question.id, index)">{{item.value}}<br/></checker-item>
+        </checker>
       </group>
+
 
       <flexbox>
         <flexbox-item :span="3"></flexbox-item>
@@ -42,7 +52,7 @@
 </template>
 
 <script>
-import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox,Group,XInput,XTextarea,Radio,Alert,Tab, TabItem} from 'vux'
+import { XHeader,Flexbox, FlexboxItem, Divider, XImg, Icon,XButton,ViewBox,Group,XInput,XTextarea,Radio,Alert,Tab, TabItem,Checklist,Checker, CheckerItem } from 'vux'
 import { config } from "../utils/global"
 import axios from 'axios'
 export default {
@@ -57,7 +67,7 @@ export default {
     Icon,
     XButton,
     ViewBox,
-    Group,XInput,Radio,Alert,Tab, TabItem
+    Group,XInput,Radio,Alert,Tab, TabItem,Checklist,Checker, CheckerItem
   },
   data() {
     return {
@@ -68,6 +78,7 @@ export default {
       grade: '',
       anxietyClick: true,
       depressedClick: false,
+      noptions:['没有或很少时间','小部分时间','相当多时间','绝大部分或全部时间'],
       options: [
         {
           key: '1',
@@ -370,6 +381,7 @@ export default {
         this.grade = '重度'
       }
       let level = Math.ceil(score / 10)
+      console.log(level)
       let id = window.localStorage.getItem('userId')
       const url = config.base_url + '/user/level?level=' + level +'&userId=' + id
       axios
@@ -379,23 +391,41 @@ export default {
         })
     },
     activeQuestion(id){
+      console.log(id)
       this.activeQid = id
     },
     activeDQuestion(id){
       this.activeDQid = id
     },
+    changeA(qid,aid){
+      // console.log(qid)
+      // console.log(aid)
+      // console.log(111)
+      // console.log('111')
+      this.questions[qid - 1].score = Number(aid + 1)
+    },
     change(value,label) {
       // label是具体的内容
-      this.questions[this.activeQid - 1].score = value
+      console.log(value.key)
+      let index = this.activeQid - 1
+      console.log(this.questions[index].score)
+      this.questions[1].score = value.key
     },
-    changeD(value,label) {
-      this.questionDepress[this.activeDQid - 1].score = value
-
+    changeD(qid,aid) {
+      this.questionDepress[qid - 1].score = Number(aid + 1)
     }
   }
 }
 </script>
 
 <style scoped>
-
+  .demo1-item-selected{
+    color: #0bb20c;
+  }
+  .demo1-item{
+    padding-right: 150px;
+    font-size: 18px;
+    padding-left: 15px;
+    padding-top: 8px;
+  }
 </style>

@@ -8,10 +8,12 @@ import  { LoadingPlugin } from 'vux'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Mui from 'vue-awesome-mui'
+import vueTap from 'v-tap'
 Vue.use(Mui)
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
 Vue.use(ElementUI)
+Vue.use(vueTap)
 
 Vue.config.productionTip = false
 
