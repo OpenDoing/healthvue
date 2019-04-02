@@ -37,6 +37,9 @@
           <cell title="问卷测评" link="/ques" >
             <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/wenjuan.svg">
           </cell>
+          <cell title="添加搭配" link="/match" >
+            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/img/wenjuan.svg">
+          </cell>
         </group>
       </flexbox-item>
     </flexbox>

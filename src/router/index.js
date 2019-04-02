@@ -10,6 +10,7 @@ import ArticleDetail from '@/views/ArticleDetail'
 import Login from '@/views/Login'
 import Register from '@/views/Register'
 import Password from '@/views/Password'
+import FoodMatch from '@/views/FoodMatch'
 
 
 import FoodAdvice from '@/views/back/user/FoodAdvice'
@@ -54,6 +55,11 @@ export default new Router({
       path: '/info',
       name: 'Info',
       component: Info
+    },
+    {
+      path: '/match',
+      name: 'FoodMatch',
+      component: FoodMatch
     },
     {
       path: '/info/password/:id',
