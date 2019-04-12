@@ -69,7 +69,7 @@ export default {
         })
     },
     updateVideo() {
-      const url = config.base_url + '/food/update?title=' + this.title +
+      const url = config.base_url + '/video/update?title=' + this.title +
         '&path=' + this.address + '&category=' +this.category  + '&id=' + this.$route.params.id
       axios
         .post(url)
